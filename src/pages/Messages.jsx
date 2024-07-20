@@ -47,7 +47,7 @@ function Messages() {
     const fetchMessages = async() => {
       try {
         const response = await fetch(
-          "http://localhost:8000/api/v1/message/get-messages",
+          `${import.meta.env.VITE_API_URL}/api/v1/message/get-messages`,
           {
             method: "GET",
           }
@@ -77,7 +77,7 @@ function Messages() {
     setDeleteLoading(true);
     if (deleteMessage) {
       try {
-        const response = await fetch(`http://localhost:8000/api/v1/message/delete-message/${messageId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/message/delete-message/${messageId}`, {
             method: "GET",
         });
 

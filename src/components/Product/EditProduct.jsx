@@ -58,7 +58,7 @@ const EditProduct = () => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/api/v1/category/all-categories"
+          `${import.meta.env.VITE_API_URL}/api/v1/category/all-categories`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
@@ -185,7 +185,7 @@ const EditProduct = () => {
       });
 
       const addProductResponse = await fetch(
-        `http://localhost:8000/api/v1/product/update-product/${productId}`,
+        `${import.meta.env.VITE_API_URL}/api/v1/product/update-product/${productId}`,
         {
           method: "POST",
           body: formData,

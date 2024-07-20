@@ -30,7 +30,7 @@ const CardProfile = (props) => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/api/v1/category/all-categories"
+          `${import.meta.env.VITE_API_URL}/api/v1/category/all-categories`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
@@ -157,7 +157,7 @@ const CardProfile = (props) => {
       });
 
       const addProductResponse = await fetch(
-        "http://localhost:8000/api/v1/product/add-product",
+        `${import.meta.env.VITE_API_URL}/api/v1/product/add-product`,
         {
           method: "POST",
           body: formData,

@@ -42,7 +42,7 @@ const ListCategory = ({ products }) => {
 
   useEffect(() => {
     const fetchProductCategories = async () => {
-      const response = await fetch(`http://localhost:8000/api/v1/category/all-categories`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/category/all-categories`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -71,7 +71,7 @@ const ListCategory = ({ products }) => {
     setDeleteLoading(true);
     if (deleteCategory) {
       try {
-        const response = await fetch(`http://localhost:8000/api/v1/category/delete-category/${categoryId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/category/delete-category/${categoryId}`, {
             method: "GET",
         });
 

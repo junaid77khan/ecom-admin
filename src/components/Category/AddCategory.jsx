@@ -64,7 +64,7 @@ const AddCategory = () => {
 
     try {
       let response = await fetch(
-        "http://localhost:8000/api/v1/category/add-category",
+        `${import.meta.env.VITE_API_URL}/api/v1/category/add-category`,
         {
           method: "POST",
           body: formData,

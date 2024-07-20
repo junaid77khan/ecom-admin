@@ -46,7 +46,7 @@ const ListProduct = () => {
     useEffect(() => {
       try {
         const fetchProducts = async() => {
-          const response = await fetch(`http://localhost:8000/api/v1/product/all-products`, {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/product/all-products`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ const ListProduct = () => {
     setDeleteLoading(true);
     if (deleteProduct) {
       try {
-        const response = await fetch(`http://localhost:8000/api/v1/product/delete-product/${productId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/product/delete-product/${productId}`, {
             method: "GET",
         });
 

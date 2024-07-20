@@ -58,7 +58,7 @@ const AddCoupon = () => {
         setCouponIdError("EMPTY")
         setDiscountValueError("EMPTY")
       let response = await fetch(
-        `http://localhost:8000/api/v1/coupon/add-coupon/${couponId}/${discountValue}`,
+        `${import.meta.env.VITE_API_URL}/api/v1/coupon/add-coupon/${couponId}/${discountValue}`,
         {
           method: "GET",
         }
