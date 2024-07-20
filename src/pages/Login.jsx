@@ -1,5 +1,5 @@
 import  { useState } from 'react';
-import AuthForm from '../components/AuthForm';
+import AuthForm from '../components/Authform';
 import { login } from '../store/authSlice';
 import { storeATLS } from '../store/accessToken';
 import { setTokenWithExpiry } from '../store/accessToken';
