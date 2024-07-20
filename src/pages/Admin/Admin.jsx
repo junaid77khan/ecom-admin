@@ -1,13 +1,9 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import ListProduct from "../../components/Product/ListProduct";
-// import AddProduct from "../../components/Product/AddProduct";
 
 import AddCategory from "../../components/Category/AddCategory";
 import ListCategory from "../../components/Category/ListCategory";
-import Dashboard from "../Dashboard";
 import Sidebar from "../../components/Cards/Sidebar";
-import AdminNavbar from "../../components/AdminNavbar";
-import HeaderStats from "../../components/HeaderStats";
 import Tables from "../Tables";
 import Add from "../AddProduct";
 import Messages from "../Messages";
