@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import upload_area from "../../../public/image.png";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

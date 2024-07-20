@@ -41,7 +41,7 @@ const ListCoupon = () => {
 
       checkUserStatus();
         const fetchCoupons = async() => {
-          const response = await fetch(`http://localhost:8000/api/v1/coupon/get-coupons`, {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/coupon/get-coupons`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'

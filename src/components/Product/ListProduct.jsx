@@ -136,7 +136,7 @@ const ListProduct = () => {
                 <td className="px-6 py-4 ">{product.unitsSold}</td>
                 
                 <td className="px-6 py-4 flex gap-2">
-                  <button onClick={() => navigate("edit-coupon", {state: product})}  className="text-gray-600 hover:text-gray-900 mr-4">
+                  <button onClick={() => navigate("edit-product", {state: product})}  className="text-gray-600 hover:text-gray-900 mr-4">
                     <FaEdit/>
                   </button>
                   <button className="text-gray-600 hover:gray-red-900" onClick={() => handleDeleteProduct(product)}>
