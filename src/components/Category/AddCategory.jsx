@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import upload_area from "../../../public/image.png";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+
 
 const Spinner = () => (
   <div className="absolute inset-0 flex justify-center items-center">
@@ -12,11 +14,34 @@ const Spinner = () => (
 const AddCategory = () => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [categoryDetails, setCategoryDetails] = useState({
     name: "",
     description: "",
     image: image,
   });
+
+  const [userStatus, setUserStatus] = useState(false);
+
+    useEffect(() => {
+      const checkUserStatus = async () => {
+          try {
+              let expiry = JSON.parse(localStorage.getItem("accessToken"));
+              if (expiry && new Date().getTime() < expiry) {
+                  setUserStatus(true);
+              } else {
+                  setUserStatus(false);
+                  navigate("/")
+              }
+          } catch (error) {
+              console.error('Error checking user status:', error);
+              setUserStatus(false);
+              navigate("/")
+          }
+      };
+
+      checkUserStatus();
+  }, []);
 
   const handleImage = (e) => {
     setImage(e.target.files[0]);
@@ -68,16 +93,19 @@ const AddCategory = () => {
   };
 
   return (
-    <>
-     <div className="w-full px-4">
-      <div className="relative flex flex-col min-w-0 break-words w-full  shadow-lg rounded-lg bg-blueGray-100 border-0">
-        <div className="rounded-t bg-white mb-0 px-6 py-6">
+    <div className="relative md:ml-64 ">
+      <div className="px-4 md:px-10 mx-auto w-full">
+      <div className="relative flex flex-col min-w-0 break-words w-full mt-4  shadow-xl rounded-lg bg-orange-50 ">
+        <div className="px-6">
+        <div className="text-start mt-12">
+        <div className="rounded-t  mb-0 px-6 py-6">
           <div className="text-center flex justify-between">
             <h6 className="text-blueGray-700 text-xl font-bold">
               Add Category
             </h6>
   
           </div>
+        </div>
         </div>
 
         <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
@@ -164,9 +192,10 @@ const AddCategory = () => {
                   <span className={` ${loading ? 'invisible' : 'visible'}`}>Add Product</span>
                 </button>
         </div>
+        </div>
       </div>
-      </div>
-    </>
+    </div>
+    </div>
   );
 };
 

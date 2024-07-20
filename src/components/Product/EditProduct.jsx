@@ -13,6 +13,29 @@ const Spinner = () => (
 const EditProduct = () => {
   const navigate = useNavigate();
     const location = useLocation();
+
+    const [userStatus, setUserStatus] = useState(false);
+
+    useEffect(() => {
+      const checkUserStatus = async () => {
+          try {
+              let expiry = JSON.parse(localStorage.getItem("accessToken"));
+              if (expiry && new Date().getTime() < expiry) {
+                  setUserStatus(true);
+              } else {
+                  setUserStatus(false);
+                  navigate("/")
+              }
+          } catch (error) {
+              console.error('Error checking user status:', error);
+              setUserStatus(false);
+              navigate("/")
+          }
+      };
+
+      checkUserStatus();
+  }, []);
+
   const product = location.state;
   const [productDetails, setProductDetails] = useState({
     name: product.name,

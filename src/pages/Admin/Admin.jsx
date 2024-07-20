@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import ListProduct from "../../components/Product/ListProduct";
 // import AddProduct from "../../components/Product/AddProduct";
 
@@ -15,17 +15,20 @@ import EditCategory from "../../components/Category/EditCategory";
 import EditProduct from "../../components/Product/EditProduct";
 import ListCoupon from "../../components/Coupon/ListCoupon";
 import AddCoupon from "../../components/Coupon/AddCoupon";
+import Login from "../Login";
 
 const Admin = () => {
+  const location = useLocation();
+
+  const isRootPath = location.pathname === "/";
+
   return (
     <>
 
       {/* <Sidebar /> */}
-      <Sidebar />
-      <div className="relative md:ml-64 bg-blueGray-100">
-      {/* <AdminNavbar /> */}
-      <HeaderStats/>
-      <div className="px-4 md:px-10 mx-auto w-full -m-24">
+      {!isRootPath && <Sidebar />}
+
+      
 
       <Routes>
         <Route path="/all-products" element={<ListProduct/>} />
@@ -36,7 +39,7 @@ const Admin = () => {
         <Route path="/edit-category" element={<EditCategory />} />
         <Route path="/add-coupon" element={<AddCoupon />} />
         <Route path="/all-coupons" element={<ListCoupon/>} />
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Login />} />
         <Route path="/orders" element={<Tables/>} />
         <Route path="/messages" element={<Messages/>} />
 
@@ -44,8 +47,6 @@ const Admin = () => {
 
 
       </Routes>
-      </div>
-      </div>
     </>
   );
 };

@@ -23,6 +23,28 @@ const EditCategory = () => {
   });
   const[categoryId,setCateogoryId] = useState(category._id)
 
+  const [userStatus, setUserStatus] = useState(false);
+
+    useEffect(() => {
+      const checkUserStatus = async () => {
+          try {
+              let expiry = JSON.parse(localStorage.getItem("accessToken"));
+              if (expiry && new Date().getTime() < expiry) {
+                  setUserStatus(true);
+              } else {
+                  setUserStatus(false);
+                  navigate("/")
+              }
+          } catch (error) {
+              console.error('Error checking user status:', error);
+              setUserStatus(false);
+              navigate("/")
+          }
+      };
+
+      checkUserStatus();
+  }, []);
+
   const handleImage = (e) => {
     setImage(e.target.files[0]);
   };

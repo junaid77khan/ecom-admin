@@ -18,6 +18,28 @@ const ListCategory = ({ products }) => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const[deleteLoading, setDeleteLoading] = useState(false);
 
+  const [userStatus, setUserStatus] = useState(false);
+
+    useEffect(() => {
+      const checkUserStatus = async () => {
+          try {
+              let expiry = JSON.parse(localStorage.getItem("accessToken"));
+              if (expiry && new Date().getTime() < expiry) {
+                  setUserStatus(true);
+              } else {
+                  setUserStatus(false);
+                  navigate("/")
+              }
+          } catch (error) {
+              console.error('Error checking user status:', error);
+              setUserStatus(false);
+              navigate("/")
+          }
+      };
+
+      checkUserStatus();
+  }, []);
+
   useEffect(() => {
     const fetchProductCategories = async () => {
       const response = await fetch(`http://localhost:8000/api/v1/category/all-categories`, {
@@ -77,13 +99,14 @@ const ListCategory = ({ products }) => {
   };
 
   return (
-    <div className="container w-[100%] lg:w-[80%] mx-auto lg:px-4 py-8">
+    <div className="relative md:ml-64 ">
+      <div className="px-4 md:px-10 mx-auto w-full">
+    <div className="container w-[100%] mt-4 mx-auto lg:px-4 py-8 ">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">All Categories</h2>
-        <button  className="bg-orange-500 text-white px-4 py-2 rounded">ADD CATEGORY</button>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
+        <table className="min-w-full bg-orange-50">
           <thead className="border-b-2 border-gray-300">
             <tr>
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 tracking-wider">Picture</th>
@@ -133,6 +156,8 @@ const ListCategory = ({ products }) => {
           </div>
         </div>
       )}
+    </div>
+    </div>
     </div>
   );
 };
