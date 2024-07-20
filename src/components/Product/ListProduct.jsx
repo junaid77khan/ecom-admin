@@ -1,0 +1,151 @@
+/* eslint-disable react/prop-types */
+
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { faTrash, faEdit, faE } from '@fortawesome/free-solid-svg-icons';
+import { FaTrash, FaEdit } from "react-icons/fa";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const Spinner = () => (
+  <div className="absolute inset-0 flex justify-center items-center">
+    <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+  </div>
+);
+
+const ListProduct = () => {
+    const navigate = useNavigate();
+    const[products,setProducts] = useState([]);
+    const [deleteProduct, setDeleteProduct] = useState(null);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const[deleteLoading, setDeleteLoading] = useState(false);
+
+    useEffect(() => {
+      try {
+        const fetchProducts = async() => {
+          const response = await fetch(`http://localhost:8000/api/v1/product/all-products`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          });
+    
+          const dataFromServer = await response.json();
+    
+          if(!dataFromServer.success) {
+            navigate("/error")
+          }
+          setProducts(dataFromServer.data);
+        }
+    
+        fetchProducts();
+      } catch (error) {
+        console.log("Error fetching products data", error);
+      }
+    }, [])
+    
+  const handleDeleteProduct = (product) => {
+    setDeleteProduct(product);
+    setShowDeleteConfirmation(true);
+  };
+
+  const confirmDelete = async () => {
+    const productId = deleteProduct._id
+    setDeleteLoading(true);
+    if (deleteProduct) {
+      try {
+        const response = await fetch(`http://localhost:8000/api/v1/product/delete-product/${productId}`, {
+            method: "GET",
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          toast.success("Product deleted successfully");
+          setProducts(products.filter(pro => pro._id !== deleteProduct._id));
+        } else {
+          throw new Error("Error deleting product")
+        }
+      } catch (error) {
+        toast.error("Error deleting product");
+      } finally {
+        setDeleteProduct(null);
+        setShowDeleteConfirmation(false);
+        setDeleteLoading(false);
+      }
+    }
+  };
+
+  const cancelDelete = () => {
+    setDeleteProduct(null);
+    setShowDeleteConfirmation(false);
+  };
+
+  return (
+    <div className="container  w-[100%] lg:w-[80%] mx-auto lg:px-4 py-8">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">All Products</h2>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white">
+          <thead className="border-b-2 border-gray-300">
+            <tr>
+              <th className="px-6 py-3  text-left text-sm font-semibold text-gray-600 tracking-wider">Image</th>
+              <th className="px-6 py-3  text-left text-sm font-semibold text-gray-600 tracking-wider">Name</th>
+              <th className="px-6 py-3  text-left text-sm font-semibold text-gray-600 tracking-wider">Category</th>
+              <th className="px-6 py-3  text-left text-sm font-semibold text-gray-600 tracking-wider">Stock</th>
+              <th className="px-6 py-3  text-left text-sm font-semibold text-gray-600 tracking-wider">Units sold</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {products?.length > 0 && products?.map((product) => (
+              <tr key={product._id} className="border-b border-gray-300">
+                <td className="px-6 py-4 ">
+                  <img src={product.images[0]} alt={product.name} className="w-10 h-10 rounded-full" />
+                </td>
+                <td className="px-6 py-4 ">{product.name.length > 30 ? product.name.substring(0,30): product.name}...</td>
+                
+                <td className="px-6 py-4 ">{product.categoryId.name }</td>
+                <td className="px-6 py-4 ">{product.stock}</td>
+                <td className="px-6 py-4 ">{product.unitsSold}</td>
+                
+                <td className="px-6 py-4 flex gap-2">
+                  <button onClick={() => navigate("edit-coupon", {state: product})}  className="text-gray-600 hover:text-gray-900 mr-4">
+                    <FaEdit/>
+                  </button>
+                  <button className="text-gray-600 hover:gray-red-900" onClick={() => handleDeleteProduct(product)}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {showDeleteConfirmation && (
+        <div className="fixed inset-0 flex items-center justify-center bg-transparent px-4 md:px-2 lg:px-0 bg-opacity-50 z-50">
+          <div className="bg-gray-100 p-8 rounded-lg shadow-lg max-w-md border-gray-300 border">
+            <p className="text-lg text-center mb-4">Are you sure you want to delete this product?</p>
+            <div className="flex justify-center gap-2">
+                <button
+                  className="font-semibold bg-orange-500 px-4 text-gray-100 py-2 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative"
+                  disabled={deleteLoading} 
+                  onClick={() => confirmDelete()}
+                >
+                  {deleteLoading && <Spinner />}
+                  <span className={` ${deleteLoading ? 'invisible' : 'visible'}`}>Delete</span>
+                </button>
+              <button onClick={cancelDelete} className="bg-gray-300 text-gray-700 px-4 py-2 rounded">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ListProduct;
