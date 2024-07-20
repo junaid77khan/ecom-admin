@@ -209,6 +209,8 @@ const EditProduct = () => {
   };
 
   return (
+    <div className="relative md:ml-64 ">
+      <div className="px-4 md:px-10 mx-auto w-full">
     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg ">
       <div className="px-6">
       
@@ -472,6 +474,8 @@ const EditProduct = () => {
                 </button>
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 };
