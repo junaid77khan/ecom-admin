@@ -1,5 +1,5 @@
 import  { useState } from 'react';
-import AuthForm from '../components/Authform';
+import AuthForm from '../components/AuthForm';
 import { login } from '../store/authSlice';
 import { storeATLS } from '../store/accessToken';
 import { setTokenWithExpiry } from '../store/accessToken';
@@ -52,11 +52,10 @@ const Login = () => {
         return;
       }
 
-      console.log("reached");
       dispatch(setTokenWithExpiry({ttl: 30000}));
       dispatch(storeATLS(dataFromServer.data.accessToken))
       dispatch(login())
-      navigate(`/all-products`);
+      navigate('/all-products');
     } catch (error) {
       throw new Error("Failed to signin. Please try again.");
     } finally {
