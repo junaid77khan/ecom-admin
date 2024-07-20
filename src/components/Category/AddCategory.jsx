@@ -163,7 +163,7 @@ const AddCategory = () => {
                       type="file"
                       id={`file-input`}
                       hidden
-                      onChange={(e) => handleImage(e, index)}
+                      onChange={(e) => handleImage(e)}
                     />
                     <img
                       src={image ? URL.createObjectURL(image) : upload_area}
