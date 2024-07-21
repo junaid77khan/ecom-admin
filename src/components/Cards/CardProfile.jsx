@@ -194,7 +194,7 @@ const CardProfile = (props) => {
   return (
     <div className="relative md:ml-64 ">
       <div className="px-4 md:px-10 mx-auto w-full">
-    <div className="relative flex flex-col min-w-0 mt-4 break-words bg-orange-50 w-full mb-6 shadow-xl rounded-lg ">
+    <div className="relative flex flex-col min-w-0 mt-4 break-words bg-orange-50 w-full mb-6  rounded-lg ">
       <div className="px-6">
       
         <div className="text-start mt-12">

@@ -105,14 +105,14 @@ const ListProduct = () => {
   };
 
   return (
-    <div className="relative md:ml-64 ">
+    <div className="relative md:ml-64 bg-orange-50">
       <div className="px-4 md:px-10 mx-auto w-full">
     <div className="container  w-[100%]  lg:px-4 py-8 ">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 ">
         <h2 className="text-2xl font-bold">All Products</h2>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-orange-50">
+        <table className="min-w-full ">
           <thead className="border-b-2 border-gray-300">
             <tr>
               <th className="px-6 py-3  text-left text-sm font-semibold text-gray-600 tracking-wider">Image</th>

@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  /* Change scrollbar track color */
+  ::-webkit-scrollbar-track {
+    background: #FFF7ED;
+  }
+  
+  /* Change scrollbar thumb color and make it slightly rounded */
+  ::-webkit-scrollbar-thumb {
+    background-color: #ff8331;
+    border-radius: 4px;
+  }
+  
+  /* Change scrollbar thumb color on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #ff0000;
+  }

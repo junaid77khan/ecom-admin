@@ -5,6 +5,8 @@ import { storeATLS } from '../store/accessToken';
 import { setTokenWithExpiry } from '../store/accessToken';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -42,6 +44,7 @@ const Login = () => {
       const dataFromServer = await response.json();
 
       if(!dataFromServer.success) {
+        console.log(dataFromServer);
         const data = dataFromServer.data;
         if(data?.emailError?.length > 0) {
           setEmailErrMessage(data.emailError)
@@ -49,6 +52,7 @@ const Login = () => {
         if(data?.passwordError?.length > 0) {
           setPasswordErrMessage(data.passwordError);
         }
+        throw new Error("Failed")
         return;
       }
 
@@ -58,6 +62,7 @@ const Login = () => {
       navigate('/all-products');
     } catch (error) {
       throw new Error("Failed to signin. Please try again.");
+      toast.error("Login failed, Please try again")
     } finally {
       setLoading(false);
     }

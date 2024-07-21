@@ -93,8 +93,8 @@ const AddCoupon = () => {
   return (
     <div className="relative md:ml-64 ">
       <div className="px-4 md:px-10 mx-auto w-full">
-     <div className="w-full px-4 mt-4 ">
-      <div className="relative flex flex-col min-w-0 break-words w-full  shadow-lg rounded-lg bg-orange-50 border-0">
+     <div className="w-full px-4  ">
+      <div className="relative flex flex-col min-w-0 break-words w-full   rounded-lg bg-orange-50 border-0">
         <div className="rounded-t mt-6 bg-orange-50 mb-0 px-6 py-6">
           <div className="text-center flex justify-between">
             <h6 className="text-blueGray-700 text-xl font-bold">

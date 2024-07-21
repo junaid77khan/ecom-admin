@@ -95,7 +95,7 @@ const AddCategory = () => {
   return (
     <div className="relative md:ml-64 ">
       <div className="px-4 md:px-10 mx-auto w-full">
-      <div className="relative flex flex-col min-w-0 break-words w-full mt-4  shadow-xl rounded-lg bg-orange-50 ">
+      <div className="relative flex flex-col min-w-0 break-words w-full rounded-lg bg-orange-50 ">
         <div className="px-6">
         <div className="text-start mt-12">
         <div className="rounded-t  mb-0 px-6 py-6">

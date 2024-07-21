@@ -19,13 +19,8 @@ const Admin = () => {
   const isRootPath = location.pathname === "/";
 
   return (
-    <>
-
-      {/* <Sidebar /> */}
+    <div className="bg-orange-50 min-h-screen">
       {!isRootPath && <Sidebar />}
-
-      
-
       <Routes>
         <Route path="/all-products" element={<ListProduct/>} />
         <Route path="/addproduct" element={<Add/>} />
@@ -38,12 +33,8 @@ const Admin = () => {
         <Route path="/" element={<Login />} />
         <Route path="/orders" element={<Tables/>} />
         <Route path="/messages" element={<Messages/>} />
-
-
-
-
       </Routes>
-    </>
+    </div>
   );
 };
 
