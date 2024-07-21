@@ -12,6 +12,7 @@ import EditProduct from "../../components/Product/EditProduct";
 import ListCoupon from "../../components/Coupon/ListCoupon";
 import AddCoupon from "../../components/Coupon/AddCoupon";
 import Login from "../Login";
+import Logout from "../Logout";
 
 const Admin = () => {
   const location = useLocation();
@@ -31,6 +32,7 @@ const Admin = () => {
         <Route path="/add-coupon" element={<AddCoupon />} />
         <Route path="/all-coupons" element={<ListCoupon/>} />
         <Route path="/" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/orders" element={<Tables/>} />
         <Route path="/messages" element={<Messages/>} />
       </Routes>

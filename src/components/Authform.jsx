@@ -73,7 +73,7 @@ const AuthForm = ({ isLogin, handleSubmit, email, setEmail, password, setPasswor
                   </svg>
                   <span className={` ml-3 ${loading ? 'invisible' : 'visible'}`}>{isLogin ? 'Login' : 'Sign Up'}</span>
                 </button>
-                <p className="mt-6 text-xs text-gray-600 text-center">
+                {/* <p className="mt-6 text-xs text-gray-600 text-center">
                   {isLogin ? (
                     <span>
                       Don&apos;t have an account? <Link to="/signup" className="border-b border-gray-500 border-dotted">Sign up</Link>
@@ -83,7 +83,7 @@ const AuthForm = ({ isLogin, handleSubmit, email, setEmail, password, setPasswor
                       Already have an account? <Link to="/signin" className="border-b border-gray-500 border-dotted">Login</Link>
                     </span>
                   )}
-                </p>
+                </p> */}
               </form>
             </div>
           </div>
