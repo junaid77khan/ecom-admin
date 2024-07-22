@@ -93,9 +93,9 @@ const EditCategory = () => {
   return (
     <div className="relative md:ml-64 bg-orange-50 ">
       <div className="px-4 md:px-10 mx-auto w-full">
-     <div className="w-full px-4">
-      <div className="relative flex flex-col min-w-0 break-words w-full rounded-lg  border-0">
-        <div className="rounded-t  mb-0 px-6 py-6">
+     <div className="w-full px-4 py-10">
+      <div className="relative flex flex-col min-w-0 break-words mx-auto p-8  w-full bg-white px-4 md:px-10 rounded-lg py-10 shadow-md border border-gray-200">
+        <div className="rounded-t  mb-0 px-6 py-6 ">
           <div className="text-center flex justify-between">
             <h6 className="text-blueGray-700 text-xl font-bold">
               Update Category
@@ -123,7 +123,7 @@ const EditCategory = () => {
                     name="name"
                     value={categoryDetails.name}
                     onChange={handleChange}
-                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                    className="border-2 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     required
                   />
                 </div>
@@ -150,10 +150,11 @@ const EditCategory = () => {
                     value={categoryDetails.description}
                     onChange={handleChange}
                     required
-                    className="border-0 px-3  placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                    className="border-2 px-3  placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     rows="4"
                   ></textarea>
                 </div>
+                <hr className="mt-6 border-b-1 border-blueGray-300" />
                 <div>
                     <input
                       type="file"

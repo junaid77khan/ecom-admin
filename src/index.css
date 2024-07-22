@@ -5,12 +5,14 @@
 
 
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 5px;
+    border: none;
   }
   
   /* Change scrollbar track color */
   ::-webkit-scrollbar-track {
-    background: #FFF7ED;
+    background: #ffffff;
+    border-color: white;
   }
   
   /* Change scrollbar thumb color and make it slightly rounded */
@@ -21,5 +23,5 @@
   
   /* Change scrollbar thumb color on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background-color: #ff0000;
+    background-color: #ff771d;
   }

@@ -101,12 +101,13 @@ const ListCategory = ({ products }) => {
   return (
     <div className="relative md:ml-64 ">
       <div className="px-4 md:px-10 mx-auto w-full">
-    <div className="container w-[100%]  mx-auto lg:px-4 py-8 ">
+    <div className="container w-[100%]  mx-auto lg:px-4 py-8  ">
+      <div className="mx-auto p-8  w-full bg-white px-4 lg:px-10 rounded-lg py-10 shadow-md border border-gray-200">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">All Categories</h2>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-orange-50">
+        <table className="min-w-full ">
           <thead className="border-b-2 border-gray-300">
             <tr>
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 tracking-wider">Picture</th>
@@ -156,6 +157,7 @@ const ListCategory = ({ products }) => {
           </div>
         </div>
       )}
+      </div>
     </div>
     </div>
     </div>

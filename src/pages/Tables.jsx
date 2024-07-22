@@ -30,9 +30,9 @@ export default function Tables() {
   }, []);
   return (
     <div className="relative md:ml-64 ">
-      <div className="px-4 md:px-10 mx-auto w-full">
-      <div className="flex flex-wrap  ">
-        <div className="w-full mb-12 px-4">
+      <div className="px-4 md:px-10 mx-auto w-full py-10">
+      <div className="flex flex-wrap  bg-white px-4 lg:px-10 rounded-lg py-10 shadow-md border border-gray-200">
+        <div className="w-full px-4">
           <CardTable />
         </div>
       </div>

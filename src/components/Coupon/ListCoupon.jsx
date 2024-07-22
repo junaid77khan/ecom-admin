@@ -102,15 +102,15 @@ const ListCoupon = () => {
 
   return (
     <div className="relative md:ml-64 ">
-      <div className="md:px-10 mx-auto w-full">
-    <div className="  w-[100%]    py-8">
-      <div className="flex justify-between items-center mt-4">
+      <div className="md:px-10 mx-auto w-full py-10">
+    <div className="  w-[100%]  bg-white px-4 lg:px-10 rounded-lg py-10 shadow-md border border-gray-200">
+      <div className="flex justify-between items-center mt-4 ">
       <div className="flex justify-between items-center mb-6 ">
         <h2 className="text-2xl font-bold">All Coupons</h2>
       </div>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-orange-50">
+        <table className="min-w-full ">
           <thead className="border-b-2 border-gray-300">
             <tr>
               <th className="px-6 py-3  text-left text-sm  text-gray-600 tracking-wider font-bold">CouponId</th>

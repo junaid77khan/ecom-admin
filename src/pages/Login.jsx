@@ -53,16 +53,27 @@ const Login = () => {
           setPasswordErrMessage(data.passwordError);
         }
         throw new Error("Failed")
-        return;
       }
 
+      toast.success("Login successful", {
+        style: {
+          fontSize: '0.9rem', 
+          padding: '0.5rem'   
+        }
+      });
       dispatch(setTokenWithExpiry({ttl: 30000}));
       dispatch(storeATLS(dataFromServer.data.accessToken))
       dispatch(login())
       navigate('/all-products');
     } catch (error) {
+      toast.error("Login failed, please try again", {
+        style: {
+          fontSize: '0.9rem', 
+          padding: '0.5rem'   
+        }
+      });
       throw new Error("Failed to signin. Please try again.");
-      toast.error("Login failed, Please try again")
+      
     } finally {
       setLoading(false);
     }

@@ -118,8 +118,8 @@ function Messages() {
 
   return (
     <div className="relative md:ml-64 ">
-      <div className="px-4 md:px-10 mx-auto w-full">
-    <div className="col-span-full xl:col-span-6   rounded-xl">
+      <div className="px-4 md:px-10 mx-auto w-full py-10">
+    <div className="col-span-full xl:col-span-6 bg-white px-4 lg:px-10 rounded-lg py-10 shadow-md border border-gray-200   ">
       <header className="px-5 py-4 border-b border-gray-100 ">
       <h6 className="text-blueGray-700 text-xl font-bold">
              Messages
@@ -131,23 +131,23 @@ function Messages() {
           messages && messages.length > 0 &&
           <div className="p-3">
             <div className="overflow-x-auto">
-              <table className="table-auto w-full bg-orange-50">
+              <table className="table-auto w-full ">
                 {/* Table header */}
-                <thead className="text-xs font-semibold uppercase w-full  text-gray-400  bg-orange-50 ">
+                <thead className="text-xs font-semibold uppercase w-full  text-gray-400  ">
                   <tr>
-                    <th className="whitespace-nowrap bg-orange-50 p-3">
+                    <th className="whitespace-nowrap  p-3">
                       <div className="font-semibold text-black text-left ">Name</div>
                     </th>
-                    <th className="whitespace-nowrap text-black bg-orange-50 p-3">
-                      <div className="font-semibold text-left bg-orange-50">Email</div>
+                    <th className="whitespace-nowrap text-black p-3">
+                      <div className="font-semibold text-left ">Email</div>
                     </th>
-                    <th className=" whitespace-nowrap text-black bg-orange-50 p-3">
-                      <div className="font-semibold text-left bg-orange-50">Message</div>
+                    <th className=" whitespace-nowrap text-black  p-3">
+                      <div className="font-semibold text-left ">Message</div>
                     </th>
                   </tr>
                 </thead>
                 {/* Table body */}
-                <tbody className="text-sm divide-y divide-gray-100 bg-orange-50 p-3">
+                <tbody className="text-sm divide-y divide-gray-100  p-3">
                   {messages.map((message) => {
                     return (
                       <tr key={message._id}>
