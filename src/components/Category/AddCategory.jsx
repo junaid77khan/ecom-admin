@@ -20,6 +20,7 @@ const AddCategory = () => {
     description: "",
     image: image,
   });
+  const token = JSON.parse(localStorage.getItem("Access Token"));
 
   const [userStatus, setUserStatus] = useState(false);
 
@@ -57,33 +58,41 @@ const AddCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    let formData = new FormData();
-    formData.append("name", categoryDetails.name);
-    formData.append("description", categoryDetails.description);
-    formData.append("image", image);
 
     try {
       let response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/v1/category/add-category`,
         {
           method: "POST",
-          body: formData,
+          body: JSON.stringify(
+            {
+              "name": categoryDetails.name,
+              "description": categoryDetails.description,
+              image
+            }
+          ),
+          mode: 'cors',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+          },
         }
       );
 
       let data = await response.json();
 
-      if (data.success) {
-        console.log(data);
-        toast.success("Category added successfully!");
+      if (data.data?.error?.trim() !== "") {
+        toast.error(`${data.data?.error}`);
+        return;
+      }
+
+      toast.success("Category added successfully!");
         setCategoryDetails({
           name: "",
           description: "",
           image: null,
         });
-      } else {
-        toast.error("Failed to add category. Please try again.");
-      }
     } catch (error) {
       console.error("Error adding category:", error);
       toast.error("An error occurred. Please try again later.");
@@ -178,22 +187,20 @@ const AddCategory = () => {
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
-            <div className="mt-2 py-10  border-t w-full flex flex-wrap justify-center items-center border-slate-200 text-center">
-              <button
-                type="submit"
-                className="mt-5 font-semibold bg-orange-500 px-4 text-gray-100 py-2 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative"
-                disabled={loading}
-                onClick={handleSubmit}
-              >
-                {loading && <Spinner />}
-                <span className={` ${loading ? "invisible" : "visible"}`}>
-                  Add Product
-                </span>
-              </button>
-            </div>
-          </div>
+        
+          </form>
+        </div>
+        <div className="mt-2 py-10  border-t w-full flex flex-wrap justify-center items-center border-blueGray-200 text-center">
+                <button
+                  type="submit"
+                  className="mt-5 font-semibold bg-orange-500 px-4 text-gray-100 py-2 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative"
+                  disabled={loading} 
+                  onClick={handleSubmit}
+                >
+                  {loading && <Spinner />}
+                  <span className={` ${loading ? 'invisible' : 'visible'}`}>Add Category</span>
+                </button>
+        </div>
         </div>
       </div>
     </div>

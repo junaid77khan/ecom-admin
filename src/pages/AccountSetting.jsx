@@ -55,13 +55,16 @@ const AccountSettings = () => {
                 headers: {
                   'Content-Type': 'application/json',
                   Authorization: `Bearer ${token}`,
-                }
+                },
+                mode: 'cors',
+                 credentials: 'include',
               });
 
               response = await response.json();
               console.log(response);
               setEmail(response.data.email);
               setUsername(response.data.username);
+              
               
         } catch (error) {
             console.error('Error getting user data:', error);
@@ -88,6 +91,8 @@ const AccountSettings = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+            mode: 'cors',
+            credentials: 'include',
           body: JSON.stringify({ username: (updatedUsername.length > 0 ? updatedUsername : username), email: (updatedEmail.length > 0 ? updatedEmail : email), password: (updatedPassword.length > 0 ? updatedPassword : "DUMMYPASSWORD"), key }),
         });
 
@@ -236,7 +241,7 @@ const AccountSettings = () => {
                   className={`font-semibold ${updatedUsername.length === 0 && updatedEmail.length === 0 && (updatedPassword.length === 0 || key.length===0) ? `bg-gray-400` : 'bg-orange-500'} text-gray-100  py-2 px-2 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative`}
                 >
                   {loading && <Spinner />}
-                  <span className={` ml-3 ${loading ? 'invisible' : 'visible'}`}>Save changes</span>
+                  <span className={` px-2 ${loading ? 'invisible' : 'visible'}`}>Save changes</span>
                 </button>
           </div>
         </div>

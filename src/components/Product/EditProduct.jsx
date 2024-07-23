@@ -38,6 +38,8 @@ const EditProduct = () => {
   }, []);
 
   const product = location.state;
+  console.log(product);
+  console.log(location.state);
   const [productDetails, setProductDetails] = useState({
     name: product.name,
     description: product.description,
@@ -50,18 +52,26 @@ const EditProduct = () => {
     images: [product.images[0], product.images[1], product.images[2]],
   });
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState(
-    product.categoryId._id
-  );
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [productId, setProductId] = useState(product._id);
+
+  const[selectedCategoryId, setSelectedCategoryId] = useState(product.categoryId._id);
+  const[categories, setCategories] = useState([])
+  const[loading, setLoading] = useState(false);
+  const[productId, setProductId] = useState(product._id)
+  const token = JSON.parse(localStorage.getItem("Access Token"));
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/v1/category/all-categories`
+          `${import.meta.env.VITE_API_URL}/api/v1/category/all-categories`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+          }
         );
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
@@ -194,20 +204,25 @@ const EditProduct = () => {
         {
           method: "POST",
           body: formData,
+          mode: 'cors',
+          credentials: 'include',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
         }
       );
       const addProductData = await addProductResponse.json();
 
-      if (!addProductData.success) {
-        toast.error("Failed to update product. Please try again.");
-        throw new Error("Failed to update product");
+      if (addProductData.data?.error?.trim() !== "") {
+        toast.error(`${addProductData.data?.error}`);
+        return;
       }
 
       toast.success("Product updated successfully!");
       navigate("/all-products");
     } catch (error) {
-      console.error("Error adding product:", error);
-      toast.error("Failed to add product");
+      console.error("Error update product:", error);
+      toast.error("Failed to update product");
     } finally {
       setLoading(false);
     }

@@ -17,7 +17,8 @@ const ListCategory = ({ products }) => {
   const [categories, setCategories] = useState([]);
   const [deleteCategory, setDeleteCategory] = useState(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const[deleteLoading, setDeleteLoading] = useState(false);
+  const token = JSON.parse(localStorage.getItem("Access Token"));
 
   const [userStatus, setUserStatus] = useState(false);
 
@@ -43,15 +44,15 @@ const ListCategory = ({ products }) => {
 
   useEffect(() => {
     const fetchProductCategories = async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/v1/category/all-categories`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/category/all-categories`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        mode: 'cors',
+        credentials: 'include',
+      });
 
       const dataFromServer = await response.json();
 
@@ -80,8 +81,10 @@ const ListCategory = ({ products }) => {
           }/api/v1/category/delete-category/${categoryId}`,
           {
             method: "GET",
-          }
-        );
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+        });
 
         const data = await response.json();
 
