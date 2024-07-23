@@ -22,7 +22,7 @@ export default function Sidebar() {
           </button>
           {/* Brand */}
           <Link
-            className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+            className="md:block text-left md:pb-2 text-slate-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
             to="#"
           >
             Admin Panel
@@ -41,11 +41,11 @@ export default function Sidebar() {
             }
           >
             {/* Collapse header */}
-            <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-200">
+            <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-slate-200">
               <div className="flex flex-wrap">
                 <div className="w-6/12">
                   <Link
-                    className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+                    className="md:block text-left md:pb-2 text-slate-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
                     to="#"
                   >
                     Admin Panel
@@ -64,7 +64,7 @@ export default function Sidebar() {
             </div>
 
             {/* Heading */}
-            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+            <h6 className="md:min-w-full text-slate-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
               Orders
             </h6>
             {/* Navigation */}
@@ -76,7 +76,7 @@ export default function Sidebar() {
                     "text-xs uppercase py-3 font-bold block " +
                     (window.location.href.indexOf("/all-products") !== -1
                       ? "text-orange-500 hover:text-orange-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
+                      : "text-slate-700 hover:text-slate-500")
                   }
                   to="/all-products"
                 >
@@ -85,7 +85,7 @@ export default function Sidebar() {
                       "fas fa-tools mr-2 text-sm " +
                       (window.location.href.indexOf("/all-products") !== -1
                         ? "opacity-75"
-                        : "text-blueGray-300")
+                        : "text-slate-300")
                     }
                   ></i>{" "}
                   All Products
@@ -98,7 +98,7 @@ export default function Sidebar() {
                     "text-xs uppercase py-3 font-bold block " +
                     (window.location.href.indexOf("/addproduct") !== -1
                       ? "text-orange-500 hover:text-orange-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
+                      : "text-slate-700 hover:text-slate-500")
                   }
                   to="/addproduct"
                 >
@@ -107,7 +107,7 @@ export default function Sidebar() {
                       "fas fa-table mr-2 text-sm " +
                       (window.location.href.indexOf("/addproduct") !== -1
                         ? "opacity-75"
-                        : "text-blueGray-300")
+                        : "text-slate-300")
                     }
                   ></i>{" "}
                   Add Products
@@ -118,7 +118,7 @@ export default function Sidebar() {
             {/* Divider */}
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
-            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+            <h6 className="md:min-w-full text-slate-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
               categories
             </h6>
             {/* Navigation */}
@@ -130,16 +130,18 @@ export default function Sidebar() {
                     "text-xs uppercase py-3 font-bold block " +
                     (window.location.href.indexOf("/all-categories") !== -1
                       ? "text-orange-500 hover:text-orange-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
+                      : "text-slate-700 hover:text-slate-500")
                   }
                   to="/all-categories"
                 >
-                  <i className={
+                  <i
+                    className={
                       "fas fa-table mr-2 text-sm " +
                       (window.location.href.indexOf("/all-categories") !== -1
                         ? "opacity-75"
-                        : "text-blueGray-300")
-                    }></i>{" "}
+                        : "text-slate-300")
+                    }
+                  ></i>{" "}
                   All Categories
                 </Link>
               </li>
@@ -150,16 +152,18 @@ export default function Sidebar() {
                     "text-xs uppercase py-3 font-bold block " +
                     (window.location.href.indexOf("/add-categories") !== -1
                       ? "text-orange-500 hover:text-orange-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
+                      : "text-slate-700 hover:text-slate-500")
                   }
                   to="/add-categories"
                 >
-                  <i  className={
+                  <i
+                    className={
                       "fas fa-table mr-2 text-sm " +
                       (window.location.href.indexOf("/add-categories") !== -1
                         ? "opacity-75"
-                        : "text-blueGray-300")
-                    }></i>{" "}
+                        : "text-slate-300")
+                    }
+                  ></i>{" "}
                   Add Categories
                 </Link>
               </li>
@@ -168,7 +172,7 @@ export default function Sidebar() {
             {/* Divider */}
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
-          
+
             {/* Navigation */}
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
@@ -178,7 +182,7 @@ export default function Sidebar() {
                     "text-xs uppercase py-3 font-bold block " +
                     (window.location.href.indexOf("/all-coupons") !== -1
                       ? "text-orange-500 hover:text-orange-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
+                      : "text-slate-700 hover:text-slate-500")
                   }
                   to="/all-coupons"
                 >
@@ -187,7 +191,7 @@ export default function Sidebar() {
                       "fas fa-tools mr-2 text-sm " +
                       (window.location.href.indexOf("/all-coupons") !== -1
                         ? "opacity-75"
-                        : "text-blueGray-300")
+                        : "text-slate-300")
                     }
                   ></i>{" "}
                   All coupons
@@ -200,7 +204,7 @@ export default function Sidebar() {
                     "text-xs uppercase py-3 font-bold block " +
                     (window.location.href.indexOf("/add-coupon") !== -1
                       ? "text-orange-500 hover:text-orange-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
+                      : "text-slate-700 hover:text-slate-500")
                   }
                   to="/add-coupon"
                 >
@@ -209,7 +213,7 @@ export default function Sidebar() {
                       "fas fa-table mr-2 text-sm " +
                       (window.location.href.indexOf("/add-coupon") !== -1
                         ? "opacity-75"
-                        : "text-blueGray-300")
+                        : "text-slate-300")
                     }
                   ></i>{" "}
                   Add coupon
@@ -220,23 +224,24 @@ export default function Sidebar() {
             <hr className="my-4 md:min-w-full" />
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-
               <li className="items-center">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
                     (window.location.href.indexOf("/orders") !== -1
                       ? "text-orange-500 hover:text-orange-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
+                      : "text-slate-700 hover:text-slate-500")
                   }
                   to="/orders"
                 >
-                  <i className={
+                  <i
+                    className={
                       "fas fa-table mr-2 text-sm " +
                       (window.location.href.indexOf("/orders") !== -1
                         ? "opacity-75"
-                        : "text-blueGray-300")
-                    }></i>{" "}
+                        : "text-slate-300")
+                    }
+                  ></i>{" "}
                   Orders
                 </Link>
               </li>
@@ -247,16 +252,18 @@ export default function Sidebar() {
                     "text-xs uppercase py-3 font-bold block " +
                     (window.location.href.indexOf("/messages") !== -1
                       ? "text-orange-500 hover:text-orange-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
+                      : "text-slate-700 hover:text-slate-500")
                   }
                   to="/messages"
                 >
-                  <i className={
+                  <i
+                    className={
                       "fas fa-table mr-2 text-sm " +
                       (window.location.href.indexOf("/messages") !== -1
                         ? "opacity-75"
-                        : "text-blueGray-300")
-                    }></i>{" "}
+                        : "text-slate-300")
+                    }
+                  ></i>{" "}
                   Messages
                 </Link>
               </li>
@@ -267,16 +274,18 @@ export default function Sidebar() {
                     "text-xs uppercase py-3 font-bold block " +
                     (window.location.href.indexOf("/account-setting") !== -1
                       ? "text-orange-500 hover:text-orange-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
+                      : "text-slate-700 hover:text-slate-500")
                   }
                   to="/account-setting"
                 >
-                  <i className={
+                  <i
+                    className={
                       "fas fa-table mr-2 text-sm " +
                       (window.location.href.indexOf("/account-setting") !== -1
                         ? "opacity-75"
-                        : "text-blueGray-300")
-                    }></i>{" "}
+                        : "text-slate-300")
+                    }
+                  ></i>{" "}
                   Account setting
                 </Link>
               </li>
@@ -287,20 +296,21 @@ export default function Sidebar() {
                     "text-xs uppercase py-3 font-bold block " +
                     (window.location.href.indexOf("/logout") !== -1
                       ? "text-orange-500 hover:text-orange-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
+                      : "text-slate-700 hover:text-slate-500")
                   }
                   to="/logout"
                 >
-                  <i className={
+                  <i
+                    className={
                       "fas fa-table mr-2 text-sm " +
                       (window.location.href.indexOf("/logout") !== -1
                         ? "opacity-75"
-                        : "text-blueGray-300")
-                    }></i>{" "}
+                        : "text-slate-300")
+                    }
+                  ></i>{" "}
                   Logout
                 </Link>
               </li>
-              
             </ul>
           </div>
         </div>
