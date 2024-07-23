@@ -1,6 +1,6 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
-import avatar from "../assets/img/team.jpg"
+import avatar from "../assets/img/team.jpg";
 
 const UserDropdown = () => {
   // dropdown props
@@ -19,7 +19,7 @@ const UserDropdown = () => {
   return (
     <>
       <a
-        className="text-blueGray-500 block"
+        className="text-slate-500 block"
         href="#pablo"
         ref={btnDropdownRef}
         onClick={(e) => {
@@ -28,7 +28,7 @@ const UserDropdown = () => {
         }}
       >
         <div className="items-center flex">
-          <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
+          <span className="w-12 h-12 text-sm text-white bg-slate-200 inline-flex items-center justify-center rounded-full">
             <img
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
@@ -47,7 +47,7 @@ const UserDropdown = () => {
         <a
           href="#pablo"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700"
           }
           onClick={(e) => e.preventDefault()}
         >
@@ -56,7 +56,7 @@ const UserDropdown = () => {
         <a
           href="#pablo"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700"
           }
           onClick={(e) => e.preventDefault()}
         >
@@ -65,17 +65,17 @@ const UserDropdown = () => {
         <a
           href="#pablo"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700"
           }
           onClick={(e) => e.preventDefault()}
         >
           Something else here
         </a>
-        <div className="h-0 my-2 border border-solid border-blueGray-100" />
+        <div className="h-0 my-2 border border-solid border-slate-100" />
         <a
           href="#pablo"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700"
           }
           onClick={(e) => e.preventDefault()}
         >
