@@ -27,6 +27,7 @@ const CardProfile = (props) => {
   const[loading, setLoading] = useState(false);
   const[initalLoading, setInitalLoading] = useState(true);
   const[userStatus, setUserStatus] = useState(false);
+  const token = JSON.parse(localStorage.getItem("Access Token"));
 
 
   useEffect(() => {
@@ -187,13 +188,21 @@ const CardProfile = (props) => {
         {
           method: "POST",
           body: formData,
+          mode: 'cors',
+          credentials: 'include',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       const addProductData = await addProductResponse.json();
 
-      if (!addProductResponse.ok || !addProductData.success) {
-        toast.error("Failed to add product. Please try again.");
-        throw new Error("Failed to add product");
+      console.log(addProductData.data.error);
+
+      if (addProductData.data?.error?.length > 0) {
+        console.log("reched");
+        toast.error(`${addProductData.data?.error}`);
+        return;
       }
 
       toast.success("Product added successfully!");

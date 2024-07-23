@@ -22,6 +22,7 @@ const EditCategory = () => {
     image: image,
   });
   const[categoryId,setCateogoryId] = useState(category._id)
+  const token = JSON.parse(localStorage.getItem("Access Token"));
 
   const [userStatus, setUserStatus] = useState(false);
 
@@ -70,6 +71,11 @@ const EditCategory = () => {
         {
           method: "POST",
           body: formData,
+          mode: 'cors',
+          credentials: 'include',
+          headers: {
+          Authorization: `Bearer ${token}`,
+          },
         }
       );
 

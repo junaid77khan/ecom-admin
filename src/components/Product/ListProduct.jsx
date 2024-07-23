@@ -23,6 +23,7 @@ const ListProduct = () => {
     const[deleteLoading, setDeleteLoading] = useState(false);
     const [userStatus, setUserStatus] = useState(false);
     const[loading, setLoading] = useState(true);
+    const token = JSON.parse(localStorage.getItem("Access Token"));
 
     useEffect(() => {
       const checkUserStatus = async () => {
@@ -50,8 +51,12 @@ const ListProduct = () => {
           const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/product/all-products`, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+              
             },
+            mode: 'cors',
+            credentials: 'include',
           });
     
           const dataFromServer = await response.json();
@@ -82,6 +87,12 @@ const ListProduct = () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/product/delete-product/${productId}`, {
             method: "GET",
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
+            },
         });
 
         const data = await response.json();

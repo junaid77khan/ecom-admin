@@ -18,7 +18,7 @@ const ListCoupon = () => {
     const [deleteCoupon, setDeleteCoupon] = useState(null);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const[deleteLoading, setDeleteLoading] = useState(false);
-
+    const token = JSON.parse(localStorage.getItem("Access Token"));
     const [userStatus, setUserStatus] = useState(false);
 
     useEffect(() => {
@@ -44,8 +44,11 @@ const ListCoupon = () => {
           const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/coupon/get-coupons`, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
             },
+            mode: 'cors',
+            credentials: 'include',
           });
     
           const dataFromServer = await response.json();
@@ -75,6 +78,12 @@ const ListCoupon = () => {
         
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/coupon/delete-coupon/${couponId}`, {
             method: "GET",
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
         });
 
         const data = await response.json();
