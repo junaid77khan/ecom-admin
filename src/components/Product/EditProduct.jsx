@@ -209,7 +209,7 @@ const EditProduct = () => {
       );
       const addProductData = await addProductResponse.json();
 
-      if (addProductData.data?.error?.trim() !== "") {
+      if (addProductData?.data?.error && addProductData?.data?.error?.trim() !== "") {
         toast.error(`${addProductData.data?.error}`);
         return;
       }
