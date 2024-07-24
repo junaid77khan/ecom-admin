@@ -5,7 +5,7 @@ import { storeATLS } from "../store/accessToken";
 import { setTokenWithExpiry } from "../store/accessToken";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Toaster, toast } from "sonner";
+import {  toast } from "sonner";
 
 import "react-toastify/dist/ReactToastify.css";
 
