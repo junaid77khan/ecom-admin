@@ -46,25 +46,6 @@ const ListProduct = () => {
   
       checkUserStatus();
   }, []);
-   
-    useEffect(() => {
-      try {
-        let expiry = JSON.parse(localStorage.getItem("accessToken"));
-        if (expiry && new Date().getTime() < expiry) {
-          setUserStatus(true);
-        } else {
-          setUserStatus(false);
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error checking user status:", error);
-        setUserStatus(false);
-        navigate("/");
-      }
-    };
-
-    checkUserStatus();
-  }, []);
 
   useEffect(() => {
     try {
@@ -75,7 +56,7 @@ const ListProduct = () => {
             method: "GET",
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`},
             mode: 'cors',
             credentials: 'include',
           });

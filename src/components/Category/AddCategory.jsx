@@ -201,6 +201,7 @@ const AddCategory = () => {
         </div>
       </div>
     </div>
+    </div>
   );
 };
 

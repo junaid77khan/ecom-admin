@@ -63,13 +63,13 @@ const OrderDetails = () => {
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                 <div className="flex flex-wrap gap-4">
-                    <img className="h-36 w-36 rounded-lg object-cover" src={orderDetails.product.images[0]}/>
+                    <img className="h-36 w-36 rounded-lg object-cover" src={orderDetails?.product?.images[0]}/>
                     <div className="">
-                        <h1 className="rounded-lg object-cover font-semibold">{orderDetails.product.name}</h1>
-                        <h1 className="rounded-lg object-cover font-semibold">{orderDetails.product.stock > 0 ? <span className="text-green-500">Available</span> : <span className="text-red-500">Out of stock</span>}</h1>
-                        <h1 className="rounded-lg object-cover">Price: ₹ {orderDetails.product.salePrice}</h1>
+                        <h1 className="rounded-lg object-cover font-semibold">{orderDetails?.product?.name}</h1>
+                        <h1 className="rounded-lg object-cover font-semibold">{orderDetails?.product?.stock > 0 ? <span className="text-green-500">Available</span> : <span className="text-red-500">Out of stock</span>}</h1>
+                        <h1 className="rounded-lg object-cover">Price: ₹ {orderDetails?.product?.salePrice}</h1>
                         <button
-                                onClick={() => navigate(`/all-products/edit-product`,{state: orderDetails.product} )}
+                                onClick={() => navigate(`/all-products/edit-product`,{state: orderDetails?.product} )}
                                 className={`mt-2 text-sm font-semibold bg-orange-500 text-gray-100  py-2 px-2 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative`}
                             >
                                 <span>View Product</span>
