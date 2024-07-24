@@ -19,8 +19,8 @@ const ListCategory = ({ products }) => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const[deleteLoading, setDeleteLoading] = useState(false);
   const token = JSON.parse(localStorage.getItem("Access Token"));
-
   const [userStatus, setUserStatus] = useState(false);
+  const[loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkUserStatus = async () => {
@@ -43,26 +43,32 @@ const ListCategory = ({ products }) => {
   }, []);
 
   useEffect(() => {
-    const fetchProductCategories = async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/category/all-categories`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        mode: 'cors',
-        credentials: 'include',
-      });
-
-      const dataFromServer = await response.json();
-
-      if (!dataFromServer.success) {
-        navigate("/error");
-      }
-      setCategories(dataFromServer.data);
-    };
-
-    fetchProductCategories();
+    try {
+      const fetchProductCategories = async () => {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/category/all-categories`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          mode: 'cors',
+          credentials: 'include',
+        });
+  
+        const dataFromServer = await response.json();
+  
+        if (!dataFromServer.success) {
+          throw new Error("Failed to fetch categories")
+        }
+        setCategories(dataFromServer.data);
+      };
+  
+      fetchProductCategories();
+    } catch (error) {
+      toast.error("Failed to fetch categories data");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const handleDeleteCategory = (category) => {
@@ -121,7 +127,7 @@ const ListCategory = ({ products }) => {
             </div>
             <div className="overflow-x-auto">
               <table className="min-w-full ">
-                <thead className="border-b-2 border-gray-300">
+              <thead className="border-b-2 border-gray-300">
                   <tr>
                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 tracking-wider">
                       Picture
@@ -134,41 +140,59 @@ const ListCategory = ({ products }) => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-                  {categories.map((category) => (
-                    <tr className="border-b border-gray-300" key={category._id}>
-                      <td className="px-6 py-4">
-                        <img
-                          src={category.image}
-                          alt={category.name}
-                          className="w-12 h-12 rounded-full"
-                        />
-                      </td>
-                      <td className="px-6 py-4">
-                        {category.name.length > 30
-                          ? category.name.substring(0, 30) + "..."
-                          : category.name}
-                      </td>
-                      {/* Uncomment below line if you want to display description */}
-                      {/* <td className="px-6 py-4">{category.description.length > 40 ? category.description.substring(0, 40) + '...' : category.description}</td> */}
-                      <td className="px-6 py-4 flex">
-                        <button className="text-gray-600 hover:text-gray-900 mr-4">
-                          <FontAwesomeIcon
-                            onClick={() =>
-                              navigate("/edit-category", { state: category })
-                            }
-                            icon={faEdit}
-                          />
-                        </button>
-                        <button
-                          className="text-gray-600 hover:gray-red-900"
-                          onClick={() => handleDeleteCategory(category)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+              <tbody>
+                {
+                  loading || !userStatus ? (
+                      <tr>
+                        <td colSpan="6" className="px-6 py-4">
+                          <div className="h-96 flex justify-center items-center z-50">
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                          </div>
+                        </td>
+                      </tr>
+                  ) : (
+                    !categories || categories.length === 0 ? (
+                      <tr className="w-[100%]   ">
+                          <td colSpan="6" className="w-full h-full text-xl lg:text-2xl py-10 px-5 font-bold">No Categories Available</td>
+                        </tr>
+                    ) : (
+                      categories.map((category) => (
+                          <tr className="border-b border-gray-300" key={category._id}>
+                            <td className="px-6 py-4">
+                              <img
+                                src={category.image}
+                                alt={category.name}
+                                className="w-12 h-12 rounded-full"
+                              />
+                            </td>
+                            <td className="px-6 py-4">
+                              {category.name.length > 30
+                                ? category.name.substring(0, 30) + "..."
+                                : category.name}
+                            </td>
+                            {/* Uncomment below line if you want to display description */}
+                            {/* <td className="px-6 py-4">{category.description.length > 40 ? category.description.substring(0, 40) + '...' : category.description}</td> */}
+                            <td className="px-6 py-4 flex">
+                              <button className="text-gray-600 hover:text-gray-900 mr-4">
+                                <FontAwesomeIcon
+                                  onClick={() =>
+                                    navigate("/edit-category", { state: category })
+                                  }
+                                  icon={faEdit}
+                                />
+                              </button>
+                              <button
+                                className="text-gray-600 hover:gray-red-900"
+                                onClick={() => handleDeleteCategory(category)}
+                              >
+                                <FontAwesomeIcon icon={faTrash} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                    )
+                  )
+                }
                 </tbody>
               </table>
             </div>
@@ -177,7 +201,7 @@ const ListCategory = ({ products }) => {
               <div className="fixed inset-0 flex items-center justify-center bg-transparent px-4 md:px-2 lg:px-0 bg-opacity-50 z-50">
                 <div className="bg-gray-100 p-8 rounded-lg shadow-lg max-w-md border-gray-300 border">
                   <p className="text-lg text-center mb-4">
-                    Are you sure you want to delete this category?
+                    Are you sure to delete this category?
                   </p>
                   <p className="text-sm text-center text-gray-600 mb-8">
                     Deleting this category will also delete all associated

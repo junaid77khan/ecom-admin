@@ -13,6 +13,7 @@ const Spinner = () => (
 
 const AddCategory = () => {
   const [image, setImage] = useState(null);
+  const token = JSON.parse(localStorage.getItem("Access Token"));
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [categoryDetails, setCategoryDetails] = useState({
@@ -20,7 +21,6 @@ const AddCategory = () => {
     description: "",
     image: image,
   });
-  const token = JSON.parse(localStorage.getItem("Access Token"));
 
   const [userStatus, setUserStatus] = useState(false);
 
@@ -58,31 +58,28 @@ const AddCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    let formData = new FormData();
+    formData.append("name", categoryDetails.name);
+    formData.append("description", categoryDetails.description);
+    formData.append("image", image);
 
     try {
       let response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/v1/category/add-category`,
         {
           method: "POST",
-          body: JSON.stringify(
-            {
-              "name": categoryDetails.name,
-              "description": categoryDetails.description,
-              image
-            }
-          ),
+          body: formData,
           mode: 'cors',
           credentials: 'include',
           headers: {
-            'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`,
+          }
         }
       );
 
       let data = await response.json();
 
-      if (data.data?.error?.trim() !== "") {
+      if (data.data?.error && data.data?.error?.trim() !== "") {
         toast.error(`${data.data?.error}`);
         return;
       }
@@ -203,6 +200,7 @@ const AddCategory = () => {
         </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

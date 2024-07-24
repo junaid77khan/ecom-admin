@@ -23,6 +23,7 @@ function Messages() {
   const [curMessage, setCurMessage] = useState("");
   const navigate = useNavigate();
   const token = JSON.parse(localStorage.getItem("Access Token"));
+  const[loading, setLoading] = useState(true);
 
   const [userStatus, setUserStatus] = useState(false);
 
@@ -67,7 +68,9 @@ function Messages() {
         setMessages(data.data);
       } catch (error) {
         console.error("Error adding message:", error);
-        toast.error("Failed to add message");
+        toast.error("Failed to get message");
+      } finally {
+        setLoading(false)
       }
     };
     fetchMessages();
@@ -136,10 +139,6 @@ function Messages() {
           <header className="px-5 py-4 border-b border-gray-100 ">
             <h6 className="text-slate-700 text-xl font-bold">Messages</h6>
           </header>
-          {messages && messages.length === 0 && (
-            <div className="text-xl text-center">No messages</div>
-          )}
-          {messages && messages.length > 0 && (
             <div className="p-3">
               <div className="overflow-x-auto">
                 <table className="table-auto w-full ">
@@ -160,46 +159,62 @@ function Messages() {
                     </tr>
                   </thead>
                   {/* Table body */}
-                  <tbody className="text-sm divide-y divide-gray-100  p-3">
-                    {messages.map((message) => {
-                      return (
-                        <tr key={message._id}>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="font-medium text-gray-800 ">
-                                {message.name}
-                              </div>
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className="text-left">{message.email}</div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className="text-left font-medium text-green-500">
-                              {message.message.length > 40
-                                ? message.message.substring(0, 40)
-                                : message.message}
-                              ...
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 flex gap-3">
-                            <button className="text-gray-600 hover:text-gray-900 mr-4">
-                              <FontAwesomeIcon
-                                onClick={() => handleShowMesage(message)}
-                                icon={faEye}
-                              />
-                            </button>
-                            <button
-                              className="text-gray-600 hover:gray-red-900"
-                              onClick={() => handleDeleteMessgae(message)}
-                            >
-                              <FontAwesomeIcon icon={faTrash} />
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
+                  {loading || !userStatus ? (
+                    <tr>
+                  <td colSpan="6" className="px-6 py-4">
+                    <div className="h-96 flex justify-center items-center z-50">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                    </div>
+                  </td>
+                </tr>
+                  ) : (
+                    !messages || messages.length === 0 ? (
+                      <tr className="w-[100%]">
+                      <td colSpan="6" className="w-full h-full text-xl lg:text-2xl py-10 px-5 font-bold">No messages yet</td>
+                  </tr>
+                    ) : (
+                      <tbody className="text-sm divide-y divide-gray-100  p-3">
+                        {messages.map((message) => {
+                          return (
+                            <tr key={message._id}>
+                              <td className="p-2 whitespace-nowrap">
+                                <div className="flex items-center">
+                                  <div className="font-medium text-gray-800 ">
+                                    {message.name}
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="p-2 whitespace-nowrap">
+                                <div className="text-left">{message.email}</div>
+                              </td>
+                              <td className="p-2 whitespace-nowrap">
+                                <div className="text-left font-medium text-green-500">
+                                  {message.message.length > 40
+                                    ? message.message.substring(0, 40)
+                                    : message.message}
+                                  ...
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 flex gap-3">
+                                <button className="text-gray-600 hover:text-gray-900 mr-4">
+                                  <FontAwesomeIcon
+                                    onClick={() => handleShowMesage(message)}
+                                    icon={faEye}
+                                  />
+                                </button>
+                                <button
+                                  className="text-gray-600 hover:gray-red-900"
+                                  onClick={() => handleDeleteMessgae(message)}
+                                >
+                                  <FontAwesomeIcon icon={faTrash} />
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    )
+                  )}
                 </table>
               </div>
               {showDeleteConfirmation && (
@@ -252,7 +267,7 @@ function Messages() {
                 </div>
               )}
             </div>
-          )}
+          
         </div>
       </div>
     </div>

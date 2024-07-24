@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { faTrash, faEdit, faE } from "@fortawesome/free-solid-svg-icons";
-import { FaTrash, FaEdit } from "react-icons/fa";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FaEdit } from "react-icons/fa";
 import { Toaster, toast } from "sonner";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -46,25 +46,6 @@ const ListProduct = () => {
   
       checkUserStatus();
   }, []);
-   
-    useEffect(() => {
-      try {
-        let expiry = JSON.parse(localStorage.getItem("accessToken"));
-        if (expiry && new Date().getTime() < expiry) {
-          setUserStatus(true);
-        } else {
-          setUserStatus(false);
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error checking user status:", error);
-        setUserStatus(false);
-        navigate("/");
-      }
-    };
-
-    checkUserStatus();
-  }, []);
 
   useEffect(() => {
     try {
@@ -75,7 +56,7 @@ const ListProduct = () => {
             method: "GET",
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`},
             mode: 'cors',
             credentials: 'include',
           });
@@ -152,13 +133,8 @@ const ListProduct = () => {
               <h2 className="text-2xl font-bold">All Products</h2>
             </div>
 
-            {loading || !userStatus ? (
-              <div className="h-96 flex justify-center items-center z-50">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
-              </div>
-            ) : (
               <div className="overflow-x-auto">
-                <table className="min-w-full">
+              <table className="min-w-full">
                   <thead className="border-b-2 border-gray-300">
                     <tr>
                       <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 tracking-wider">
@@ -182,50 +158,56 @@ const ListProduct = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {products?.length > 0 &&
-                      products.map((product) => (
-                        <tr
-                          key={product._id}
-                          className="border-b border-gray-300"
-                        >
-                          <td className="px-6 py-4">
-                            <img
-                              src={product.images[0]}
-                              alt={product.name}
-                              className="w-10 h-10 rounded-full"
-                            />
-                          </td>
-                          <td className="px-6 py-4">
-                            {product.name.length > 30
-                              ? product.name.substring(0, 30)
-                              : product.name}
-                            ...
-                          </td>
-                          <td className="px-6 py-4">
-                            {product.categoryId.name}
-                          </td>
-                          <td className="px-6 py-4">{product.stock}</td>
-                          <td className="px-6 py-4">{product.unitsSold}</td>
-                          <td className="px-6 py-4 flex gap-2">
-                            <button
-                              onClick={() =>
-                                navigate("edit-product", { state: product })
-                              }
-                              className="text-gray-600 hover:text-gray-900 mr-4"
-                            >
-                              <FaEdit />
-                            </button>
-                            <button
-                              className="text-gray-600 hover:gray-red-900"
-                              onClick={() => handleDeleteProduct(product)}
-                            >
-                              <FontAwesomeIcon icon={faTrash} />
-                            </button>
-                          </td>
+                    {loading || !userStatus ? (
+                      <tr>
+                        <td colSpan="6" className="px-6 py-4">
+                          <div className="h-96 flex justify-center items-center z-50">
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                          </div>
+                        </td>
+                      </tr>
+                    ) : (
+                      !products || products?.length === 0 ? (
+                        <tr className="w-[100%]   ">
+                          <td colSpan="6" className="w-full h-full text-xl lg:text-2xl py-10 px-5 font-bold">No Product Available</td>
                         </tr>
-                      ))}
+                      ) : (
+                        products?.map((product) => (
+                          <tr key={product?._id} className="border-b border-gray-300">
+                            <td className="px-6 py-4">
+                              <img
+                                src={product.images[0]}
+                                alt={product.name}
+                                className="w-10 h-10 rounded-full"
+                              />
+                            </td>
+                            <td className="px-6 py-4">
+                              {product.name.length > 30 ? product.name.substring(0, 30) + '...' : product.name}
+                            </td>
+                            <td className="px-6 py-4">{product.categoryId.name}</td>
+                            <td className="px-6 py-4">{product.stock}</td>
+                            <td className="px-6 py-4">{product.unitsSold}</td>
+                            <td className="px-6 py-4 flex gap-2">
+                              <button
+                                onClick={() => navigate("edit-product", { state: product })}
+                                className="text-gray-600 hover:text-gray-900 mr-4"
+                              >
+                                <FaEdit />
+                              </button>
+                              <button
+                                className="text-gray-600 hover:gray-red-900"
+                                onClick={() => handleDeleteProduct(product)}
+                              >
+                                <FontAwesomeIcon icon={faTrash} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      )
+                    )}
                   </tbody>
                 </table>
+
 
                 {showDeleteConfirmation && (
                   <div className="fixed inset-0 flex items-center justify-center bg-transparent px-4 md:px-2 lg:px-0 bg-opacity-50 z-50">
@@ -259,7 +241,6 @@ const ListProduct = () => {
                   </div>
                 )}
               </div>
-            )}
           </div>
         </div>
       </div>
