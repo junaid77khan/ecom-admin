@@ -17,16 +17,37 @@ const Spinner = () => (
 );
 
 const ListProduct = () => {
-  const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
-  const [deleteProduct, setDeleteProduct] = useState(null);
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
-  const [userStatus, setUserStatus] = useState(false);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const checkUserStatus = async () => {
+    const navigate = useNavigate();
+    const[products,setProducts] = useState([]);
+    const [deleteProduct, setDeleteProduct] = useState(null);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const[deleteLoading, setDeleteLoading] = useState(false);
+    const [userStatus, setUserStatus] = useState(false);
+    const[loading, setLoading] = useState(true);
+    const token = JSON.parse(localStorage.getItem("Access Token"));
+
+    useEffect(() => {
+      const checkUserStatus = async () => {
+          try {
+              let expiry = JSON.parse(localStorage.getItem("accessToken"));
+              if (expiry && new Date().getTime() < expiry) {
+                  setUserStatus(true);
+              } else {
+                  setUserStatus(false);
+                  navigate("/")
+              }
+          } catch (error) {
+              console.error('Error checking user status:', error);
+              setUserStatus(false);
+              navigate("/")
+          }
+      };
+  
+      checkUserStatus();
+  }, []);
+   
+    useEffect(() => {
       try {
         let expiry = JSON.parse(localStorage.getItem("accessToken"));
         if (expiry && new Date().getTime() < expiry) {
@@ -53,10 +74,11 @@ const ListProduct = () => {
           {
             method: "GET",
             headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            mode: 'cors',
+            credentials: 'include',
+          });
 
         const dataFromServer = await response.json();
 
@@ -90,8 +112,13 @@ const ListProduct = () => {
           }/api/v1/product/delete-product/${productId}`,
           {
             method: "GET",
-          }
-        );
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
+            },
+        });
 
         const data = await response.json();
 

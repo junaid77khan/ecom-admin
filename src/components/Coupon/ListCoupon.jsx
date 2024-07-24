@@ -14,13 +14,13 @@ const Spinner = () => (
 );
 
 const ListCoupon = () => {
-  const navigate = useNavigate();
-  const [coupons, setCoupons] = useState([]);
-  const [deleteCoupon, setDeleteCoupon] = useState(null);
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
-
-  const [userStatus, setUserStatus] = useState(false);
+    const navigate = useNavigate();
+    const[coupons,setCoupons] = useState([]);
+    const [deleteCoupon, setDeleteCoupon] = useState(null);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const[deleteLoading, setDeleteLoading] = useState(false);
+    const token = JSON.parse(localStorage.getItem("Access Token"));
+    const [userStatus, setUserStatus] = useState(false);
 
   useEffect(() => {
     try {
@@ -47,10 +47,12 @@ const ListCoupon = () => {
           {
             method: "GET",
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
             },
-          }
-        );
+            mode: 'cors',
+            credentials: 'include',
+          });
 
         const dataFromServer = await response.json();
 
@@ -82,8 +84,13 @@ const ListCoupon = () => {
           }/api/v1/coupon/delete-coupon/${couponId}`,
           {
             method: "GET",
-          }
-        );
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+        });
 
         const data = await response.json();
 

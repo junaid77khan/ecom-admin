@@ -22,6 +22,7 @@ function Messages() {
   const [curUser, setCurUser] = useState("");
   const [curMessage, setCurMessage] = useState("");
   const navigate = useNavigate();
+  const token = JSON.parse(localStorage.getItem("Access Token"));
 
   const [userStatus, setUserStatus] = useState(false);
 
@@ -49,6 +50,12 @@ function Messages() {
           `${import.meta.env.VITE_API_URL}/api/v1/message/get-messages`,
           {
             method: "GET",
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         const data = await response.json();
@@ -82,8 +89,10 @@ function Messages() {
           }/api/v1/message/delete-message/${messageId}`,
           {
             method: "GET",
-          }
-        );
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+        });
 
         const data = await response.json();
 

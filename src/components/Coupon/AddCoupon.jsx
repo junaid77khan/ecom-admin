@@ -20,6 +20,7 @@ const AddCoupon = () => {
     discountValue: 0,
   });
   const [userStatus, setUserStatus] = useState(false);
+  const token = JSON.parse(localStorage.getItem("Access Token"));
 
   useEffect(() => {
     const checkUserStatus = async () => {
@@ -64,6 +65,12 @@ const AddCoupon = () => {
         }/api/v1/coupon/add-coupon/${couponId}/${discountValue}`,
         {
           method: "GET",
+          mode: 'cors',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 

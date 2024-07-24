@@ -14,6 +14,7 @@ import AddCoupon from "../../components/Coupon/AddCoupon";
 import Login from "../Login";
 import Logout from "../Logout";
 import AccountSettings from "../AccountSetting";
+import OrderDetails from "../orderPage";
 
 const Admin = () => {
   const location = useLocation();
@@ -36,6 +37,7 @@ const Admin = () => {
         <Route path="/account-setting" element={<AccountSettings />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/orders" element={<Tables/>} />
+        <Route path="/:orderId" element={<OrderDetails/>} />
         <Route path="/messages" element={<Messages/>} />
       </Routes>
     </div>
