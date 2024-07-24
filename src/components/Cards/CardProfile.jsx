@@ -23,7 +23,7 @@ const CardProfile = (props) => {
     images: [null, null, null],
   });
 
-  const[selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const[selectedCategoryId, setSelectedCategoryId] = useState("Categories");
   const[categories, setCategories] = useState([])
   const[loading, setLoading] = useState(false);
   const[initalLoading, setInitalLoading] = useState(true);

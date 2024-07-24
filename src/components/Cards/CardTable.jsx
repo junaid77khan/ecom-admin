@@ -9,8 +9,7 @@ import { faTrash, faEye, faMultiply } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const token = JSON.parse(localStorage.getItem("Access Token"));
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "sonner";
 
 
 const Spinner = () => (
@@ -29,12 +28,32 @@ export default function CardTable({ color }) {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const[deleteLoading, setDeleteLoading] = useState(false);
   const[deleteOrderType, setDeleteOrderType] = useState("");
+  const[loading, setLoading] = useState(true);
+  const[userStatus, setUserStatus] = useState(false);
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
 
   useEffect(() => {
+
+    const checkUserStatus = async () => {
+      try {
+        let expiry = JSON.parse(localStorage.getItem("accessToken"));
+        if (expiry && new Date().getTime() < expiry) {
+          setUserStatus(true);
+        } else {
+          setUserStatus(false);
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Error checking user status:", error);
+        setUserStatus(false);
+        navigate("/");
+      }
+    };
+
+    checkUserStatus();
 
     const getCodOrders = async () => {
         try {
@@ -53,6 +72,8 @@ export default function CardTable({ color }) {
               
         } catch (error) {
             console.error('Error getting cod orders:', error);
+        } finally {
+          setLoading(false);
         }
     };
 
@@ -220,102 +241,124 @@ const cancelDelete = () => {
                 
               </tr>
             </thead>
-            
+            <tbody>
             {
-              selectedOption === 'COD' ? (codOrders.map((order) => {
-                return (
-                  <tbody>
-                    <tr key={order._id}>
-                      <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4 ">
-                        {order._id.toString().length > 15 ? `${order._id.toString().substring(0, 15)}...` : order._id} <span className="text-gray-500 text-sm">  (Database Id)</span>
+              loading || !userStatus ? (
+                <tr>
+                  <td colSpan="6" className="px-6 py-4">
+                    <div className="h-96 flex justify-center items-center z-50">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                    </div>
+                  </td>
+                </tr>
+              ): (
+                selectedOption === 'COD' ? (
+                  !codOrders || codOrders.length === 0 ? (
+                    <tr className="w-[100%]">
+                      <td colSpan="6" className="w-full h-full text-xl lg:text-2xl py-10 px-5 font-bold">No COD orders yet</td>
+                    </tr>
+                  ) : (
+                    codOrders.map((order) => {
+                    return (
+                        <tr key={order._id}>
+                          <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4 ">
+                            {order._id.toString().length > 15 ? `${order._id.toString().substring(0, 15)}...` : order._id} <span className="text-gray-500 text-sm">  (Database Id)</span>
+                          </td>
+                          <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                            {
+                              new Date(order.createdAt).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                second: 'numeric',
+                                hour12: true
+                              })
+                            }
+                          </td>
+                          <td className="border-t-0 px-6 border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                            {order?.status}
+                          </td>
+                          <td className="border-t-0 px-6 border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                            {order.fullName}
+                          </td>
+                          <td className="border-t-0 px-6 border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                          <div className="flex flex-wrap justify-start gap-4 items-center">
+                            <button
+                              onClick={() => navigate(`/${order._id}`, {state: {orderDetails: order}} )}
+                              className={`font-semibold bg-orange-500 text-gray-100  py-2 px-4 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative`}
+                            >
+                              <span>View</span>
+                            </button>
+                            <button
+                              onClick={() => handleDeleteOrder(order, "COD") }
+                              className={`font-semibold bg-orange-500 text-gray-100  py-2 px-4 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative`}
+                            >
+                              <span>Delete</span>
+                            </button>
+                          </div>
+                          </td>
+                        </tr>
+                    )
+                    })
+                  )
+              ) : (
+                 !razorPayOrders || razorPayOrders.length === 0 ? (
+                  <tr className="w-[100%]">
+                      <td colSpan="6" className="w-full h-full text-xl lg:text-2xl py-10 px-5 font-bold">No RazorPay orders yet</td>
+                  </tr>
+                 ) : (
+                  razorPayOrders.map((details) => (
+                    <tr key={details._id}>
+                      <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                        {details.razorpay_order_id.toString().length > 15 ? `${details.razorpay_order_id.substring(0, 15)}...` : details.razorpay_order_id}{' '}
+                        <span className="text-sm text-gray-500">(RazorPay order id)</span>
                       </td>
                       <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
-                        {
-                          new Date(order.createdAt).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            second: 'numeric',
-                            hour12: true
-                          })
-                        }
+                      {details.createdAt ? (
+                        new Date(details.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                          hour: 'numeric',
+                          minute: 'numeric',
+                          second: 'numeric',
+                          hour12: true,
+                        })
+                      ) : (
+                        "N/A" // Or any other message indicating the date is not available
+                      )}
                       </td>
-                      <td className="border-t-0 px-6 border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
-                        {order?.status}
+                      <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                        {details?.orderDetails?.status || 'No status'}
                       </td>
-                      <td className="border-t-0 px-6 border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
-                        {order.fullName}
+                      <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                        {details?.orderDetails?.fullName || 'No fullname'}
                       </td>
-                      <td className="border-t-0 px-6 border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
-                      <div className="flex flex-wrap justify-start gap-4 items-center">
-                        <button
-                          onClick={() => navigate(`/${order._id}`, {state: {orderDetails: order}} )}
-                          className={`font-semibold bg-orange-500 text-gray-100  py-2 px-4 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative`}
-                        >
-                          <span>View</span>
-                        </button>
-                        <button
-                          onClick={() => handleDeleteOrder(order, "COD") }
-                          className={`font-semibold bg-orange-500 text-gray-100  py-2 px-4 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative`}
-                        >
-                          <span>Delete</span>
-                        </button>
-                      </div>
+                      <td className="border-t-0  px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                        <div className="flex flex-wrap justify-start items-center gap-2">
+                          <button
+                            onClick={() => navigate(`/${details.razorpay_order_id}`, {state: {orderDetails: details?.orderDetails, createdAt: details?.createdAt, razorpay_order_id: details.razorpay_order_id, razorpay_payment_id: details.razorpay_payment_id}} )}
+                            className={`font-semibold bg-orange-500 text-gray-100  py-2 px-4 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative`}
+                          >
+                            <span>View</span>
+                          </button>
+                          <button
+                            onClick={() => handleDeleteOrder(details, "RazorPay")}
+                            className={`font-semibold bg-orange-500 text-gray-100  py-2 px-4 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative`}
+                          >
+                            <span>Delete</span>
+                          </button>
+                        </div>
                       </td>
                     </tr>
-                  </tbody>
-                )
-              })) : (
-              razorPayOrders.map((details) => (
-              <tr key={details._id}>
-                <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
-                  {details.razorpay_order_id.toString().length > 15 ? `${details.razorpay_order_id.substring(0, 15)}...` : details.razorpay_order_id}{' '}
-                  <span className="text-sm text-gray-500">(RazorPay order id)</span>
-                </td>
-                <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
-                {details.createdAt ? (
-                  new Date(details.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    second: 'numeric',
-                    hour12: true,
-                  })
-                ) : (
-                  "N/A" // Or any other message indicating the date is not available
-                )}
-                </td>
-                <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
-                  {details?.orderDetails?.status || 'No status'}
-                </td>
-                <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
-                  {details?.orderDetails?.fullName || 'No fullname'}
-                </td>
-                <td className="border-t-0  px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
-                  <div className="flex flex-wrap justify-start items-center gap-2">
-                    <button
-                      onClick={() => navigate(`/${details.razorpay_order_id}`, {state: {orderDetails: details?.orderDetails, createdAt: details?.createdAt, razorpay_order_id: details.razorpay_order_id, razorpay_payment_id: details.razorpay_payment_id}} )}
-                      className={`font-semibold bg-orange-500 text-gray-100  py-2 px-4 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative`}
-                    >
-                      <span>View</span>
-                    </button>
-                    <button
-                      onClick={() => handleDeleteOrder(details, "RazorPay")}
-                      className={`font-semibold bg-orange-500 text-gray-100  py-2 px-4 rounded-lg hover:bg-orange-600 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none relative`}
-                    >
-                      <span>Delete</span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              ))
+                    ))
+                 )
+              )
               )
             }
-            
+            </tbody>
           </table>
         </div>
         {showDeleteConfirmation && (
@@ -341,11 +384,3 @@ const cancelDelete = () => {
     </>
   );
 }
-
-CardTable.defaultProps = {
-  color: "light",
-};
-
-CardTable.propTypes = {
-  color: PropTypes.oneOf(["light", "dark"]),
-};

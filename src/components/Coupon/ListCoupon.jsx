@@ -21,6 +21,7 @@ const ListCoupon = () => {
     const[deleteLoading, setDeleteLoading] = useState(false);
     const token = JSON.parse(localStorage.getItem("Access Token"));
     const [userStatus, setUserStatus] = useState(false);
+    const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     try {
@@ -65,6 +66,8 @@ const ListCoupon = () => {
       fetchCoupons();
     } catch (error) {
       console.log("Error fetching coupons data", error);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -137,22 +140,38 @@ const ListCoupon = () => {
                 </tr>
               </thead>
               <tbody>
-                {coupons?.length > 0 &&
-                  coupons?.map((coupon) => (
-                    <tr key={coupon._id} className="border-b border-gray-300">
-                      <td className="px-6 py-4 ">{coupon.couponId}</td>
-                      <td className="px-6 py-4 ">{coupon.discountValue}</td>
+              {loading || !userStatus ? (
+                <tr>
+                  <td colSpan="6" className="px-6 py-4">
+                    <div className="h-96 flex justify-center items-center z-50">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                !coupons || coupons.length === 0 ? (
+                  <tr className="w-[100%]">
+                      <td colSpan="6" className="w-full h-full text-xl lg:text-2xl py-10 px-5 font-bold">No Coupons Available</td>
+                  </tr>
+                ) : (
+                  coupons?.length > 0 &&
+                      coupons?.map((coupon) => (
+                        <tr key={coupon._id} className="border-b border-gray-300">
+                          <td className="px-6 py-4 ">{coupon.couponId}</td>
+                          <td className="px-6 py-4 ">{coupon.discountValue}</td>
 
-                      <td className="px-6 py-4 flex gap-2">
-                        <button
-                          className="text-gray-600 hover:gray-red-900"
-                          onClick={() => handleDeleteCoupon(coupon)}
-                        >
-                          <FaTrash />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                          <td className="px-6 py-4 flex gap-2">
+                            <button
+                              className="text-gray-600 hover:gray-red-900"
+                              onClick={() => handleDeleteCoupon(coupon)}
+                            >
+                              <FaTrash />
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                )
+              )}
               </tbody>
             </table>
           </div>
