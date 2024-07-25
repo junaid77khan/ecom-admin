@@ -78,6 +78,7 @@ const OrderDetails = () => {
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                 <div className="flex gap-1 mb-10 flex-col justify-cemter items-start">
+                <h1 className=" font-semibold text-sm"><span className="text-black font-bold">Note: </span>Deleting pending or cancelled order will automatically update order's stock and it's units sold</h1>
                 <label htmlFor="status">Order status</label>
                             <select
                                 name="status"
