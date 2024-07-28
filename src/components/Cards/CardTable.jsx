@@ -262,7 +262,7 @@ const cancelDelete = () => {
                     return (
                         <tr key={order._id}>
                           <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4 ">
-                            {order._id.toString().length > 15 ? `${order._id.toString().substring(0, 15)}...` : order._id} <span className="text-gray-500 text-sm">  (Database Id)</span>
+                            {order._id.toString().length > 15 ? `${order._id.toString().substring(0, 15)}...` : order._id} 
                           </td>
                           <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                             {
@@ -313,7 +313,7 @@ const cancelDelete = () => {
                     <tr key={details._id}>
                       <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                         {details.razorpay_order_id.toString().length > 15 ? `${details.razorpay_order_id.substring(0, 15)}...` : details.razorpay_order_id}{' '}
-                        <span className="text-sm text-gray-500">(RazorPay order id)</span>
+                        
                       </td>
                       <td className="border-t-0 px-6  border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                       {details.createdAt ? (
